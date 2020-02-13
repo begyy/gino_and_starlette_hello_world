@@ -1,7 +1,8 @@
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+sys.path.append(os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = 'SECRET_KEY'
 DEBUG = os.environ.get('DEBUG', True)
 
