@@ -14,11 +14,6 @@ class User(db.Model):
     password = db.Column(db.String(250))
 
     @staticmethod
-    async def encode_password(password) -> str:
-        encode = pbkdf2_sha256.hash(password)
-        return encode
-
-    @staticmethod
     async def check_password(password, hash_password) -> bool:
         return pbkdf2_sha256.verify(password, hash_password)
 
@@ -33,3 +28,8 @@ class User(db.Model):
     @staticmethod
     async def all() -> list:
         return await User.query.gino.all()
+
+    @staticmethod
+    async def hash_password(password) -> str:
+        hash = pbkdf2_sha256.hash(password)
+        return hash

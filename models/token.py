@@ -1,5 +1,4 @@
 import binascii
-
 from manage import db
 import os
 
@@ -9,6 +8,7 @@ class Token(db.Model):
     id = db.Column(db.BigInteger(), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     token = db.Column(db.String(250))
+    token1 = db.Column(db.String(250))
 
     @staticmethod
     async def generate_key():

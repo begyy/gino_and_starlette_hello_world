@@ -1,9 +1,14 @@
+import sys
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(BASE_DIR))
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool, MetaData
 
 from alembic import context
+from models import db
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -18,7 +23,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 config.set_main_option('sqlalchemy.url', "postgresql://gino_user:gino_password@localhost/gino")
-target_metadata = MetaData
+target_metadata = db
 
 
 # other values from the config, defined by the needs of env.py,

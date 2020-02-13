@@ -11,7 +11,7 @@ async def signup(request):
     check = await User.query.where(User.username == data['username']).gino.first()
     if check:
         return JSONResponse({"error": "User already exists"}, status_code=400)
-    hash_password = await User.encode_password(data['password'])
+    hash_password = await User.hash_password(data['password'])
     await User.create(username=data['username'], password=hash_password)
     return JSONResponse({"detail": "successfully"})
 
