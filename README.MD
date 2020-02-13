@@ -3,11 +3,15 @@
 ```
 pip install requirements.txt
 ```
+# new migrations
+```
+python manage.py makemigrations
+```
 # database migrate
 ```
-alembic upgrade head
+python manage.py migrate
 ```
 # run server
 ```
-python manage.py
+python manage.py runserver
 ```

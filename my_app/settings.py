@@ -1,6 +1,6 @@
 import os
 import sys
-
+from alembic.config import Config
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = 'SECRET_KEY'
@@ -12,4 +12,4 @@ DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD', 'gino_password')
 
 DATABASE = f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@localhost/{DATABASE_NAME}"
 
-ALEMBIC_CFG = os.path.join(BASE_DIR, 'alembic.ini')
+ALEMBIC_CFG = Config(os.path.join(BASE_DIR, 'alembic.ini'))
