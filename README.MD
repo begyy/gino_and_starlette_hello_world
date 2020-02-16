@@ -1,4 +1,4 @@
-# Starlette Framework and GINO ORM
+# Starlette Framework and GINO
 
 ```
 pip install requirements.txt
