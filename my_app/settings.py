@@ -13,3 +13,4 @@ DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD', 'gino_password')
 DATABASE = f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@localhost/{DATABASE_NAME}"
 
 ALEMBIC_CFG = Config(os.path.join(BASE_DIR, 'alembic.ini'))
+PAGE_SIZE = 25

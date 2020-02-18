@@ -1,11 +1,11 @@
 import binascii
 from manage import db
 import os
+from models.base_model import BaseModel, db
 
 
-class Token(db.Model):
+class Token(BaseModel):
     __tablename__ = "token"
-    id = db.Column(db.BigInteger(), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     token = db.Column(db.String(250))
     token1 = db.Column(db.String(250))

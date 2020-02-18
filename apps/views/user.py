@@ -1,10 +1,10 @@
 from starlette.responses import JSONResponse
 from models import User, Token
 from authorization.authorization import auth
-from manage import app
+from manage import app, db
 from starlette.authentication import requires
 from serializers.user import UserSerializer, UserLoginSerializer, UserListSerializer
-
+from paganation import PaginationResponse
 
 @app.route("/signup/", methods=['POST'])
 async def signup(request):
@@ -42,9 +42,11 @@ async def login(request):
 @app.route("/users/", methods=['GET'])
 @requires('authenticated', status_code=401)
 async def user_list(request):
+    #query = db.select([User]).limit(2)
     users = await User.all()
+
     serializer = UserListSerializer(many=True).dump(users)
-    return JSONResponse(serializer)
+    return PaginationResponse(serializer)
 
 
 @app.route("/my_profile/", methods=['GET'])
