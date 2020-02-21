@@ -4,7 +4,7 @@ from authorization.authorization import auth
 from manage import app, db
 from starlette.authentication import requires
 from serializers.user import UserSerializer, UserLoginSerializer, UserListSerializer
-from paganation import PaginationResponse
+
 
 @app.route("/signup/", methods=['POST'])
 async def signup(request):
@@ -16,7 +16,7 @@ async def signup(request):
     last_name = serializer['last_name']
     password = serializer['password']
 
-    check = await User.query.where(User.username == username).gino.first()
+    check = await User.filter_and_first(User.username == username)
     if check:
         return JSONResponse({"error": "User already exists"}, status_code=400)
     hash_password = await User.hash_password(password)
@@ -42,11 +42,10 @@ async def login(request):
 @app.route("/users/", methods=['GET'])
 @requires('authenticated', status_code=401)
 async def user_list(request):
-    #query = db.select([User]).limit(2)
-    users = await User.all()
-
+    queryset = db.select([User])
+    users = await queryset.gino.all()
     serializer = UserListSerializer(many=True).dump(users)
-    return PaginationResponse(serializer)
+    return JSONResponse(serializer)
 
 
 @app.route("/my_profile/", methods=['GET'])

@@ -2,7 +2,7 @@ from models.user import User
 
 
 async def auth(login, password):
-    user = await User.query.where(User.username == login).gino.first()
+    user = await User.filter_and_first(User.username == login)
     if user is None:
         return None
 

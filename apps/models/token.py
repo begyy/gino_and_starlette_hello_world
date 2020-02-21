@@ -1,5 +1,4 @@
 import binascii
-from manage import db
 import os
 from models.base_model import BaseModel, db
 
