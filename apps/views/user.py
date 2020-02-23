@@ -4,6 +4,7 @@ from authorization.authorization import auth
 from manage import app, db
 from starlette.authentication import requires
 from serializers.user import UserSerializer, UserLoginSerializer, UserListSerializer
+from rest_framework.view import APIView
 
 
 @app.route("/signup/", methods=['POST'])
@@ -53,3 +54,15 @@ async def user_list(request):
 async def my_profile(request):
     serializer = UserListSerializer().dump(request.user)
     return JSONResponse(serializer)
+
+
+@app.route('/test/')
+class TestView(APIView):
+    async def get(self, request):
+        return JSONResponse({'good': 'get'})
+
+    async def post(self, request):
+        return JSONResponse({'good': 'post'})
+
+    async def put(self, request):
+        return JSONResponse({'good': 'put'})

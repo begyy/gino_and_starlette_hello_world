@@ -24,10 +24,6 @@ class User(BaseModel):
     def display_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
-    @classmethod
-    async def all(cls) -> list:
-        return await cls.query.gino.all()
-
     @staticmethod
     async def hash_password(password) -> str:
         hash = pbkdf2_sha256.hash(password)

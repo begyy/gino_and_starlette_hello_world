@@ -1,13 +1,14 @@
-from starlette.responses import JSONResponse
 from starlette.authentication import (
-    AuthenticationBackend, AuthCredentials
+    AuthenticationBackend, AuthCredentials, UnauthenticatedUser
 )
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 
 
-def on_auth_error(request, exc):
-    return JSONResponse({"error": str(exc)}, status_code=401)
+class CustomUnauthenticatedUser(UnauthenticatedUser):
+    @property
+    def is_superuser(self) -> bool:
+        return False
 
 
 class AuthBackend(AuthenticationBackend):
@@ -16,11 +17,11 @@ class AuthBackend(AuthenticationBackend):
         token = request.headers.get("Authorization")
         check = await Token.check_token(token)
         if check is None:
-            return None
+            return AuthCredentials(), CustomUnauthenticatedUser()
         user = await User.get(check.user_id)
         return AuthCredentials(["authenticated"]), user
 
 
 middleware = [
-    Middleware(AuthenticationMiddleware, backend=AuthBackend(), on_error=on_auth_error)
+    Middleware(AuthenticationMiddleware, backend=AuthBackend())
 ]
